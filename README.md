@@ -1,4 +1,6 @@
-# tf_docDB
+# Terraform - Provision an documentDB Cluster tf_docDB
+
+This repo containing Terraform configuration files to provision an documentDB cluster on AWS.
 
 This Terraform project shows how to specify and deploy the following components:
 + 1 module VPC ( internet gateway, 3 private subnets ans 3 public subnets for our docdb cluster )
@@ -42,9 +44,10 @@ This Terraform project shows how to specify and deploy the following components:
     rm -rfv **/.terraform # remove 
     
 ## To test DocumentDB
-1.  ssh -i "docdbkey.pem" ec2-user@ec2-3-145-151-80.us-east-2.compute.amazonaws.com
-2.  wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-3.  mongo 
+1.  cd /tmp
+2.  ssh -i "docdbkey.pem" ec2-user@ec2-3-145-151-80.us-east-2.compute.amazonaws.com
+3.  wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+4.  mongo 
           --ssl 
           --host <docdb cluster endpoint>
           --sslCAFile rds-combined-ca-bundle.pem
@@ -52,6 +55,6 @@ This Terraform project shows how to specify and deploy the following components:
           --password <yourMasterPassword>
   mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password
   
-3.  `db.col.insert({hello:”Amazon DocumentDB”})`
-4.  `db.col.find()`
-5.   See more commands in connect_docDB._commands.txt or check params and run test_docDBConnect.py installing python in EC2 console
+4.  `db.col.insert({hello:”Amazon DocumentDB”})`
+6.  `db.col.find()`
+7.   See more commands in connect_docDB._commands.txt or check params and run test_docDBConnect.py installing python in EC2 console

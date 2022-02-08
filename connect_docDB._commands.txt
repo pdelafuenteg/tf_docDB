@@ -1,0 +1,34 @@
+
+ssh -i "docdbkey.pem" ec2-user@ec2-3-145-151-80.us-east-2.compute.amazonaws.com
+
+wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+
+mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password
+
+db.collection.insert({"hello":"DocumentDB"})
+db.collection.findOne()
+
+db.profiles.insertMany([
+            { "_id" : 1, "name" : "Matt", "status": "active", "level": 12, "score":202},
+            { "_id" : 2, "name" : "Frank", "status": "inactive", "level": 2, "score":9},
+            { "_id" : 3, "name" : "Karen", "status": "active", "level": 7, "score":87},
+            { "_id" : 4, "name" : "Katie", "status": "active", "level": 3, "score":27}
+            ])
+db.profiles.find()
+db.profiles.find({name: "Katie"})
+db.profiles.findAndModify({
+        query: { name: "Matt", status: "active"},
+        update: { $inc: { score: 10 } }
+    })
+db.profiles.find({name: "Matt"})
+
+db.profiles.drop()
+db.collection.drop()
+
+
+https://docs.aws.amazon.com/documentdb/latest/developerguide/connect-ec2.html
+https://github.com/cloudposse/terraform-aws-documentdb-cluster
+
+https://github.com/terraform-aws-modules/
+https://www.compose.com/articles/creating-an-aws-vpc-and-secured-compose-mongodb-with-terraform/
+
