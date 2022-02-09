@@ -25,6 +25,7 @@ This Terraform project shows how to specify and deploy the following components:
 ## generate a keypair to access EC2 instances
 
     ssh-keygen => ~/.ssh/id_rsa.pub
+    cp ~/.ssh/id_rsa ~/.ssh/docdbkey.pem
 
 ## Terraform commands
     
@@ -44,17 +45,29 @@ This Terraform project shows how to specify and deploy the following components:
     rm -rfv **/.terraform # remove 
     
 ## To test DocumentDB
-1.  cd /tmp
-2.  ssh -i "docdbkey.pem" ec2-user@ec2-3-145-151-80.us-east-2.compute.amazonaws.com
-3.  wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+terraform output -> bastion_ssh (ssh -A ec2-user@3.12.162.178) or ssh -A ec2-user@ec2-18-220-5-176.us-east-2.compute.amazonaws.com
+terraform output -> mongo_shell (mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11)
+
+1.  ssh -A ec2-user@<ip_public_ec2> or ( ssh -i ~/.ssh/docdbkey.pem ec2-user@<dns_public_ec2> )
+2.  cd /tmp
+3.  ls -lisa rds-combined-ca-bundle.pem
 4.  mongo 
           --ssl 
           --host <docdb cluster endpoint>
           --sslCAFile rds-combined-ca-bundle.pem
           --username <yourMasterUsername>
           --password <yourMasterPassword>
-  mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password
+ 
+mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11
   
-4.  `db.col.insert({hello:”Amazon DocumentDB”})`
+5.  `db.col.insert({hello:”Amazon DocumentDB”})`
 6.  `db.col.find()`
 7.   See more commands in connect_docDB._commands.txt or check params and run test_docDBConnect.py installing python in EC2 console
+
+## To test SSH tunnel connection  SSH tunnels to connect DocumentDB cluster from a client machine outside your VPC
+ssh -i ~/.ssh/docdbkey.pem -L 27017:testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 ec2-user@ec2-18-220-5-176.us-east-2.compute.amazonaws.com -N
+
+wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <yourUsername> --password <yourPassword>
+ 
+mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11    
