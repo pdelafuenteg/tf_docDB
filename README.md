@@ -78,7 +78,9 @@ mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws
 7.   See more commands in connect_docDB._commands.txt or check params and run test_docDBConnect.py installing python in EC2 console
 
 ## To test SSH tunnel connection  SSH tunnels to connect DocumentDB cluster from a client machine outside your VPC
-ssh -i ~/.ssh/docdbkey.pem -L 27017:testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 ec2-user@ec2-18-220-5-176.us-east-2.compute.amazonaws.com -N
+ssh -i ~/.ssh/docdbkey.pem -L 27017:testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 ec2-user@ec2-18-118-164-152.us-east-2.compute.amazonaws.com -N
+or
+ssh -i ~/.ssh/docdbkey.pem -L 27017:testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 ec2-user@18.118.164.152 -N
 
 wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <yourUsername> --password <yourPassword>
@@ -87,6 +89,7 @@ mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --
 
 ## Related links    
 
-https://registry.terraform.io/modules/cloudposse/documentdb-cluster
-https://github.com/mjheitland/tfdocdb
+1. https://registry.terraform.io/modules/cloudposse/documentdb-cluster
+
+2. https://github.com/mjheitland/tfdocdb
 
