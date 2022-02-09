@@ -1,9 +1,11 @@
 
-ssh -i "docdbkey.pem" ec2-user@ec2-3-145-151-80.us-east-2.compute.amazonaws.com
+ssh -i ~/.ssh/docdbkey.pem ec2-user@<dns_public_ec2>
+
+ssh -A ec2-user@<ip_public_ec2>
 
 wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 
-mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password
+mongo --ssl --host testdocumentdb.cluster-<key_endpoiny>.<region>.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password
 
 db.collection.insert({"hello":"DocumentDB"})
 db.collection.findOne()
