@@ -5,7 +5,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.2.0"
 
-  name                 = "tf-${var.name}-vpc"#"docdb-vpc" #"education-vpc"
+  name                 = "tf-${var.name}-vpc" #"docdb-vpc" #"education-vpc"
   cidr                 = "10.0.0.0/16"
   azs                  = data.aws_availability_zones.available.names
   private_subnets      = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -26,13 +26,13 @@ resource "aws_security_group" "service" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port = 0
-    to_port   = 0
+   # from_port = 0
+   # to_port   = 0
     
-    #from_port   = 27017
-    #to_port     = 27017
-    #protocol  = "tcp"
-    protocol        = "-1"
+    from_port   = 27017
+    to_port     = 27017
+    protocol  = "tcp"
+    #protocol        = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -194,9 +194,8 @@ resource "aws_instance" "bastion" {
   #subnet_id               = element( module.vpc.public_subnets.*.ids, 0)
   #vpc_security_group_ids  = [ module.vpc.default_security_group_id ]
   #vpc_security_group_ids  = [var.sgbastion_id]
-  
-  vpc_security_group_ids  = [ aws_security_group.service.id ]
-  #vpc_security_group_ids  = [ aws_security_group.bastion.id ]
+  #vpc_security_group_ids  = [ aws_security_group.service.id ]
+  vpc_security_group_ids  = [ aws_security_group.service.id, aws_security_group.bastion.id ]
 
   user_data               = data.template_file.userdata.*.rendered[count.index]
   tags = { 
@@ -207,26 +206,38 @@ resource "aws_instance" "bastion" {
   
 }
 
-#resource "aws_security_group" "bastion" {
-#  #name_prefix = "all_worker_management"
-#   name        = "tf-${var.name}-bastion-sg"
-#   description = "Allow SSH traffic to bastion"
-#   vpc_id      = module.vpc.vpc_id
+resource "aws_security_group" "bastion" {
 
-#   ingress {
-#     from_port = 0
-#     to_port   = 0
-#     #from_port   = 22
-#     #to_port     = 22
-#     #protocol  = "tcp"
-#     protocol        = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+ #name_prefix = "all_worker_management"
+  name        = "tf-${var.name}-bastion-sg"
+  description = "Allow SSH traffic to bastion"
+  vpc_id      = module.vpc.vpc_id
 
-#   egress {
-#     from_port       = 0
-#     to_port         = 0
-#     protocol        = "-1"
-#     cidr_blocks     = ["0.0.0.0/0"]
-#   }
-# }
+  ingress {
+    #from_port = 0
+    #to_port   = 0
+    from_port   = 22
+    to_port     = 22
+    protocol  = "tcp"
+    #protocol        = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  # ingress {
+  #   from_port = 0
+  #   to_port   = 0
+  #   #from_port   = 22
+  #   #to_port     = 22
+  #   #protocol  = "tcp"
+  #   protocol        = "-1"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
+}
