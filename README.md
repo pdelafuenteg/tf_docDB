@@ -58,8 +58,8 @@ Default output format [json]:
 ]
     
 ## To test DocumentDB
-terraform output -> bastion_ssh (ssh -A ec2-user@3.12.162.178) or ssh -A ec2-user@ec2-18-220-5-176.us-east-2.compute.amazonaws.com
-terraform output -> mongo_shell (mongo --ssl --host testdocumentdb.cluster-cqcczwgwvdz4.us-east-2.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11)
+terraform output -> bastion_ssh (ssh -A ec2-user@<ip_public_ec2>) or ssh -A ec2-user@<dns_public_ec2> 
+terraform output -> mongo_shell (mongo --ssl --host testdocumentdb.cluster-<key_endpoiny>.<region>.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11)
 
 1.  ssh -A ec2-user@<ip_public_ec2> or ( ssh -i ~/.ssh/docdbkey.pem ec2-user@<dns_public_ec2> )
 2.  cd /tmp
