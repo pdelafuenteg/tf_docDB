@@ -16,15 +16,26 @@ This Terraform project shows how to specify and deploy the following components:
 ++ 1 docdb cluster using the docdb subnet group
 ++ 1 docdb nodes (ec2 instances of type db.t3.medium / db.r4.large)
 
-## in .zshrc
+## aws configure
+    aws configure
+    ls -slia ~/.aws/credentials
+
+AWS Access Key ID [****************<lastkeys>]: 
+AWS Secret Access Key [****************<lastkeys>]: 
+Default region name [us-east-2]: 
+Default output format [json]: 
+ 
+[
+    ## in .zshrc
 
     export AWS_ACCESS_KEY_ID="xxx"
     export AWS_SECRET_ACCESS_KEY="xxx"
     export AWS_DEFAULT_REGION="us-east-2"
+]
+    
+## generate a keypair to access EC2 instances (~/.ssh/id_rsa.pub y ~/.ssh/id_rsa)
 
-## generate a keypair to access EC2 instances
-
-    ssh-keygen => ~/.ssh/id_rsa.pub
+    ssh-keygen
     cp ~/.ssh/id_rsa ~/.ssh/docdbkey.pem
 
 ## Terraform commands
@@ -41,8 +52,10 @@ This Terraform project shows how to specify and deploy the following components:
     
     terraform destroy -auto-approve
 
+[
 ## To delete Terraform state files
     rm -rfv **/.terraform # remove 
+]
     
 ## To test DocumentDB
 terraform output -> bastion_ssh (ssh -A ec2-user@3.12.162.178) or ssh -A ec2-user@ec2-18-220-5-176.us-east-2.compute.amazonaws.com
