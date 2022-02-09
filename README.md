@@ -83,4 +83,10 @@ ssh -i ~/.ssh/docdbkey.pem -L 27017:testdocumentdb.cluster-cqcczwgwvdz4.us-east-
 wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <yourUsername> --password <yourPassword>
  
-mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11    
+mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password dbpassword11
+
+## Related links    
+
+https://registry.terraform.io/modules/cloudposse/documentdb-cluster
+https://github.com/mjheitland/tfdocdb
+
