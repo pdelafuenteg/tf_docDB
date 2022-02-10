@@ -59,7 +59,7 @@ Default output format [json]:
     
 ## To test DocumentDB
 terraform output -> bastion_ssh (ssh -A ec2-user@<ip_public_ec2>) or ssh -A ec2-user@<dns_public_ec2> 
-terraform output -> mongo_shell (mongo --ssl --host testdocumentdb.cluster-<key_endpoiny>.<region>.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username <yourMasterUsername> --password <yourMasterPassword>)
+terraform output -> mongo_shell (mongo --ssl --host testdocumentdb.cluster-<key_endpoiny>.<region>.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username <your_master_username> --password <your_master_password>)
 
 1.  ssh -A ec2-user@<ip_public_ec2> or ( ssh -i ~/.ssh/docdbkey.pem ec2-user@<dns_public_ec2> )
 2.  cd /tmp
@@ -68,8 +68,8 @@ terraform output -> mongo_shell (mongo --ssl --host testdocumentdb.cluster-<key_
           --ssl 
           --host <docdb cluster endpoint>
           --sslCAFile rds-combined-ca-bundle.pem
-          --username <yourMasterUsername>
-          --password <yourMasterPassword>
+          --username <your_master_username>
+          --password <your_master_password>
  
 mongo --ssl --host testdocumentdb.cluster-<key_endpoint>.<regi_on>.docdb.amazonaws.com:27017 --sslCAFile rds-combined-ca-bundle.pem --username dbadmin --password <yourMasterPassword>
   
@@ -86,9 +86,9 @@ ssh -i ~/.ssh/docdbkey.pem -L 27017:testdocumentdb.cluster-<key_endpoiny>.<regi_
 with the tunnel openned in other terminal:
     
 wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <yourMasterUsername> --password <yourMasterPassword>
+mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <your_master_username> --password <your_master_password>
  
-mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <yourMasterUsername> --password <yourMasterPassword>
+mongo --sslAllowInvalidHostnames --ssl --sslCAFile rds-combined-ca-bundle.pem --username <your_master_username> --password <your_master_password>
 
     
 ## Related links    
