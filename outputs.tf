@@ -86,3 +86,41 @@ output "bastion_ssh" {
 output "mongo_shell" {
   value = "mongo --ssl --host ${module.documentdb-cluster.endpoint}:${var.db_port} --sslCAFile rds-combined-ca-bundle.pem --username ${var.master_username} --password ${var.master_password}"
 }
+
+# resource "null_resource" "stop_cluster" {
+#     depends_on = [module.documentdb-cluster.cluster_name]
+#     provisioner "local-exec" {
+#       #command = "ansible all -i files/host.yml -m ping"
+#       #exec "echo -e "\x1B[31m Warning! Stoping cluster having name ${module.documentdb-cluster.cluster_name}.................. \x1B[0m"
+#       #command = "aws docdb stop-db-cluster --db-cluster-identifier ${module.documentdb-cluster.cluster_name}"
+#       on_failure  = fail
+#       interpreter = ["/bin/bash", "-c"]
+#       command     = <<-EOT
+#         echo -e "\x1B[31m Warning! Stoping cluster having name ${module.documentdb-cluster.cluster_name}.................. \x1B[0m"
+#         aws docdb stop-db-cluster --db-cluster-identifier ${module.documentdb-cluster.cluster_name}
+#         echo "***************************************Stopped ****************************************************"
+#       EOT
+#     }
+#     #   this setting will trigger script every time,change it something needed
+#     triggers = {
+#       always_run = "${timestamp()}"
+#     }
+# }
+
+# resource "null_resource" "start_cluster" {
+#     depends_on = [module.documentdb-cluster.cluster_name]
+#     provisioner "local-exec" {
+#       #command = "aws docdb start-db-cluster --db-cluster-identifier ${module.documentdb-cluster.cluster_name}"
+#       #on_failure  = fail
+#       interpreter = ["/bin/bash", "-c"]
+#       command     = <<-EOT
+#         echo -e "\x1B[31m [INFO] Starting cluster having name ${module.documentdb-cluster.cluster_name}.................. \x1B[0m"
+#         aws docdb start-db-cluster --db-cluster-identifier ${module.documentdb-cluster.cluster_name}
+#         echo "***************************************Started ****************************************************"
+#       EOT
+#     }
+#     #   this setting will trigger script every time,change it something needed
+#     triggers = {
+#       always_run = "${timestamp()}"
+#     }
+# }

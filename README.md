@@ -49,6 +49,9 @@ Default output format [json]:
     terraform apply -auto-approve tfplan
     
     terraform apply -auto-approve
+
+    #terraform apply -target null_resource.stop_cluster -auto-approve
+    #terraform apply -target null_resource.start_cluster -auto-approve
     
     terraform destroy -auto-approve
 
