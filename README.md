@@ -38,6 +38,8 @@ Default output format [json]:
     ssh-keygen
     cp ~/.ssh/id_rsa ~/.ssh/docdbkey.pem
 
+    mv terraform.tfvars_initial terraform.tfvars
+
 ## Terraform commands
     
     terraform init
